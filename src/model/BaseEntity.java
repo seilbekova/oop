@@ -1,30 +1,37 @@
 package model;
 
+import java.util.UUID;
+import java.time.LocalDateTime;
 
 public abstract class BaseEntity {
-    protected int id;
-    protected String name;
+    private UUID id;
+    private String name;
+    private LocalDateTime createdAt;
 
-    public BaseEntity(int id, String name) {
-        this.id = id;
+    public BaseEntity(String name) {
+        this.id = UUID.randomUUID();
         this.name = name;
+        this.createdAt = LocalDateTime.now();
     }
-
 
     public abstract void validate() throws Exception;
     public abstract String getDetails();
-
 
     public void printBasicInfo() {
         System.out.println("ID: " + id + ", Name: " + name);
     }
 
+    public String getSummary() {
+        return String.format("%s (ID: %s)",
+                name,
+                id.toString().substring(0, 8));
+    }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -37,6 +44,10 @@ public abstract class BaseEntity {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         this.name = name;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

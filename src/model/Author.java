@@ -1,23 +1,22 @@
 package model;
 
+import exception.InvalidInputException;  // ДОБАВИТЬ этот импорт
 
-public class Author extends BaseEntity {
+public class Author extends BaseEntity implements Validatable {
     private String nationality;
 
-    public Author(int id, String name, String nationality) {
-        super(id, name);
+    public Author(String name, String nationality) {
+        super(name);
         this.nationality = nationality;
     }
 
     @Override
-    public void validate() throws Exception {
-
+    public void validate() throws InvalidInputException {  // ИЗМЕНИТЬ тип исключения
         if (getName() == null || getName().trim().isEmpty()) {
-            throw new Exception("Author name cannot be empty");
+            throw new InvalidInputException("Author name cannot be empty");
         }
-
         if (nationality == null || nationality.trim().isEmpty()) {
-            throw new Exception("Nationality cannot be empty");
+            throw new InvalidInputException("Nationality cannot be empty");
         }
     }
 
@@ -25,13 +24,6 @@ public class Author extends BaseEntity {
     public String getDetails() {
         return "Author: " + getName() + " from " + nationality;
     }
-
-
-    public void printFullInfo() {
-        printBasicInfo();
-        System.out.println("Nationality: " + nationality);
-    }
-
 
     public String getNationality() {
         return nationality;

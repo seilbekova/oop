@@ -1,67 +1,31 @@
 package db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DatabaseConnection {
-
     private static final String URL = "jdbc:mysql://localhost:3306/library_db";
     private static final String USER = "root";
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "your_password";
 
-
-    static {
+    public static Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("MySQL JDBC Driver loaded successfully");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Error loading MySQL JDBC Driver");
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            System.out.println("Ошибка подключения к БД: " + e.getMessage());
+            // Возвращаем null для работы без БД
+            return null;
+        }
+    }
+
+    public static void closeConnection(Connection connection) {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-
-
-    public static void close(Connection conn) {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
-            }
-        }
-    }
-
-
-    public static void close(Statement stmt) {
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                System.err.println("Error closing statement: " + e.getMessage());
-            }
-        }
-    }
-
-
-    public static void close(ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                System.err.println("Error closing result set: " + e.getMessage());
-            }
-        }
-    }
-
-
-    public static void closeAll(Connection conn, Statement stmt, ResultSet rs) {
-        close(rs);
-        close(stmt);
-        close(conn);
-    }
 }
-
