@@ -1,0 +1,107 @@
+ Library Management System - OOP Project
+A Java-based console application demonstrating Object-Oriented Programming principles with a layered architecture, JDBC database operations, and modern Java features.
+
+Features
+Author management (CRUD operations)
+
+Book management (CRUD operations)
+
+ Search books by title, author, category
+
+ Sort books by price and publication year
+
+ Input validation and error handling
+ PostgreSQL database integration
+ Console-based user interface
+
+ Architecture
+The project follows a three-layer architecture:
+
+Controller - Handles input/output
+
+Service - Business logic layer
+
+Repository - Data access layer
+
+Project Structure:
+text
+src/
+├── controller/          # Controllers (BookController, AuthorController)
+├── service/            # Service interfaces
+│   └── impl/          # Service implementations
+├── repository/         # Repository interfaces
+│   └── impl/          # JDBC implementations
+├── model/              # Domain entities (Book, Author, BaseEntity)
+├── exception/          # Custom exceptions
+└── Main.java           # Entry point
+
+Database Tables:
+sql
+-- Authors table
+CREATE TABLE authors (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    biography TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Books table
+CREATE TABLE books (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    author_id UUID NOT NULL REFERENCES authors(id) ON DELETE CASCADE,
+    isbn VARCHAR(13) UNIQUE NOT NULL,
+    price DECIMAL(10,2) NOT NULL CHECK (price > 0),
+    publication_year INTEGER NOT NULL CHECK (publication_year > 0),
+    category VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+1. Encapsulation
+Private fields with public getters/setters
+
+Hidden implementation details
+
+Controlled access to object state
+
+2. Inheritance
+Book and Author extend BaseEntity
+
+Custom exception hierarchy
+
+Code reuse through inheritance
+
+3. Polymorphism
+Method overriding (getSummary(), getDetails())
+
+Interface implementation (Searchable, PricedItem)
+
+Dynamic method binding
+
+4. Abstraction
+Abstract BaseEntity class
+
+Service and repository interfaces
+
+Separation of interface and implementation
+
+ SOLID Principles
+Principle	Implementation in Project
+Single Responsibility	Each class has one clear purpose
+Open/Closed	Easy to add new implementations via interfaces
+Liskov Substitution	Subclasses can replace parent classes
+Interface Segregation	Small, focused interfaces
+Dependency Inversion	Depend on abstractions, not concretions
+ Implementation Features
+Generics: Type-safe collections and Optional
+
+Lambdas: For sorting, filtering, and functional operations
+
+Custom Exceptions: Domain-specific exception hierarchy
+
+Interface Default Methods: Default implementations in interfaces
+
+Pure JDBC: Database operations without ORM frameworks
+
+Console UI: Simple command-line interface
