@@ -47,3 +47,4 @@ public class BookRequest {
         this.publicationYear = publicationYear;
     }
 }
+

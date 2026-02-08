@@ -49,3 +49,4 @@ public class PrintedBook extends Book {
         this.coverType = coverType;
     }
 }
+

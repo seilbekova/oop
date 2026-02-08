@@ -35,3 +35,4 @@ public class LoggerService {
         System.out.println("[WARNING][" + timestamp + "] " + message);
     }
 }
+

@@ -53,3 +53,4 @@ public class Author extends BaseEntity {
         this.nationality = nationality;
     }
 }
+

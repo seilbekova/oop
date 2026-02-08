@@ -95,3 +95,4 @@ public class Book extends BaseEntity {
         this.publicationYear = publicationYear;
     }
 }
+
