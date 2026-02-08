@@ -20,3 +20,4 @@ public class AuthorRequest {
         this.nationality = nationality;
     }
 }
+
